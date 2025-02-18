@@ -1,2 +1,4 @@
 from .game import *
-from .movie import *
+from .genre import *
+from .user import *
+from .user_game import *
