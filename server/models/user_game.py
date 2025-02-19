@@ -3,6 +3,20 @@ from sqlalchemy_serializer import SerializerMixin
 
 class UserGame(db.Model, SerializerMixin):
   __tablename__ = "user_games"
+
+  serialize_rules=(
+    "-game_id",
+    "-user_id",
+    "-game.user_games",
+    "-game.users",
+    "-user.user_games",
+    "-user.games"
+  )
+
+  # genre = db.relationship("Genre", back_populates="games")
+  # user_games = db.relationship("UserGame", back_populates="game", cascade="all, delete-orphan")
+  # users = db.relationship("User", secondary="user_games", back_populates="games")
+
   
   id = db.Column(db.Integer, primary_key=True)
   rating = db.Column(db.Integer)

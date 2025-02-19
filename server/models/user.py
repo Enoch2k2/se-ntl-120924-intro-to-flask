@@ -1,5 +1,6 @@
 from config import db
 from sqlalchemy_serializer import SerializerMixin
+from sqlalchemy.orm import validates
 
 class User(db.Model, SerializerMixin):
   __tablename__ = "users"
@@ -15,9 +16,20 @@ class User(db.Model, SerializerMixin):
   )
   
   id = db.Column(db.Integer, primary_key=True)
-  username = db.Column(db.String)
+  username = db.Column(db.String, unique=True, nullable=False)
 
-  user_games = db.relationship("UserGame", back_populates="user")
+  @validates("username")
+  def validate_username(self, key, username):
+    # key == "username"
+    # username == "Bob"
+    if len(username) <= 2:
+      raise ValueError("Username must be at least 3 characters long")
+    elif len(username) > 25:
+      raise ValueError("Username must be at most 25 characters long")
+    
+    return username
+
+  user_games = db.relationship("UserGame", back_populates="user", cascade="all, delete-orphan")
   games = db.relationship("Game", secondary="user_games", back_populates="users")
 
   def __repr__(self):

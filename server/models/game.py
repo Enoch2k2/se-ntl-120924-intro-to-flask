@@ -20,9 +20,8 @@ class Game(db.Model, SerializerMixin):
   genre_id = db.Column(db.Integer, db.ForeignKey("genres.id"))
 
   genre = db.relationship("Genre", back_populates="games")
-  user_games = db.relationship("UserGame", back_populates="game")
+  user_games = db.relationship("UserGame", back_populates="game", cascade="all, delete-orphan")
   users = db.relationship("User", secondary="user_games", back_populates="games")
-
 
   def __repr__(self):
     return f'<Game id={self.id} title="{self.title}">'

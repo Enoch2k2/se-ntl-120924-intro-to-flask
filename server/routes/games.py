@@ -12,12 +12,28 @@ def games_route():
   elif request.method == "POST":
     data = request.get_json()
     title = data.get('title')
-    game = Game(title=title)
+    genre_id = data.get('genre_id')
+    game = Game(title=title, genre_id=genre_id)
     db.session.add(game)
     db.session.commit()
     return jsonify(game.to_dict()), 201
 
-@app.route("/games/<int:id>")
+@app.route("/games/<int:id>", methods=["GET", "PATCH", "DELETE"])
 def game_route(id):
   game = Game.query.get(id)
-  return jsonify(game.to_dict()), 200
+  if request.method == "GET":
+    return jsonify(game.to_dict()), 200
+  elif request.method == "PATCH":
+    # do an update!
+    data = request.get_json()
+    for key in data.keys():
+      if hasattr(game, key):
+        setattr(game, key, data[key])
+    db.session.add(game)
+    db.session.commit()
+    return jsonify(game.to_dict()), 200
+  elif request.method == "DELETE":
+    # do delete stuff
+    db.session.delete(game)
+    db.session.commit()
+    return jsonify({}), 204
