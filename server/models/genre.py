@@ -1,5 +1,6 @@
 from config import db
 from sqlalchemy_serializer import SerializerMixin
+from sqlalchemy.orm import validates
 
 class Genre(db.Model, SerializerMixin):
   __tablename__ = "genres"
@@ -12,6 +13,13 @@ class Genre(db.Model, SerializerMixin):
   name = db.Column(db.String, unique=True)
 
   games = db.relationship("Game", back_populates="genre", cascade="all, delete-orphan")
+
+  @validates("name")
+  def validate_name(self, key, name):
+    if len(name) < 3:
+      raise ValueError("Genre should be more than 2 characters long.")
+    
+    return name
 
   def __repr__(self):
     return f'<Genre id={self.id} name="{self.name}">'

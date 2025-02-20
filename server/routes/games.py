@@ -4,7 +4,7 @@ from models.models import Game
 
 import ipdb
 
-@app.route("/games", methods=["GET", "POST"])
+@app.route("/api/games", methods=["GET", "POST"])
 def games_route():
   if request.method == "GET":
     games = [game.to_dict() for game in Game.query.all()]
@@ -18,7 +18,7 @@ def games_route():
     db.session.commit()
     return jsonify(game.to_dict()), 201
 
-@app.route("/games/<int:id>", methods=["GET", "PATCH", "DELETE"])
+@app.route("/api/games/<int:id>", methods=["GET", "PATCH", "DELETE"])
 def game_route(id):
   game = Game.query.get(id)
   if request.method == "GET":

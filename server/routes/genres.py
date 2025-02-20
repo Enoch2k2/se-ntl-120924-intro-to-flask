@@ -4,7 +4,7 @@ from models.models import Genre
 
 import ipdb
 
-@app.route("/genres", methods=["GET", "POST"])
+@app.route("/api/genres", methods=["GET", "POST"])
 def genres_route():
   if request.method == "GET":
     genres = [genre.to_dict() for genre in Genre.query.all()]
@@ -12,12 +12,15 @@ def genres_route():
   elif request.method == "POST":
     data = request.get_json()
     name = data.get('name')
-    genre = Genre(name=name)
-    db.session.add(genre)
-    db.session.commit()
-    return jsonify(genre.to_dict()), 201
+    try:
+      genre = Genre(name=name)
+      db.session.add(genre)
+      db.session.commit()
+      return jsonify(genre.to_dict()), 201
+    except ValueError as error:
+      return jsonify({"error": str(error)}), 422
 
-@app.route("/genres/<int:id>",methods=["GET", "PATCH", "DELETE"])
+@app.route("/api/genres/<int:id>",methods=["GET", "PATCH", "DELETE"])
 def genre_route(id):
   genre = Genre.query.get(id)
   if request.method == "GET":
