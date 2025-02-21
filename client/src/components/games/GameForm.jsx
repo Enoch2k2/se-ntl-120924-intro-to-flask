@@ -1,6 +1,6 @@
 import * as yup from 'yup'
 import { useFormik } from 'formik'
-import { baseUrl, headers } from '../../Globals'
+import { headers } from '../../Globals'
 import { useEffect } from 'react'
 
 const GameForm = ({ genres, addGame }) => {
@@ -29,7 +29,7 @@ const GameForm = ({ genres, addGame }) => {
       headers: headers,
       body: JSON.stringify(values)
     }
-    const resp = await fetch(baseUrl + "/api/games", options)
+    const resp = await fetch("/api/games", options)
     const data = await resp.json()
     addGame(data)
   }

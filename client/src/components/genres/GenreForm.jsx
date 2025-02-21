@@ -1,6 +1,6 @@
 import * as yup from 'yup'
 import { useFormik } from 'formik'
-import { baseUrl, headers } from '../../Globals'
+import { headers } from '../../Globals'
 
 const GenreForm = ({ addGenre }) => {
   
@@ -20,7 +20,7 @@ const GenreForm = ({ addGenre }) => {
       headers: headers,
       body: JSON.stringify(values)
     }
-    const resp = await fetch(baseUrl + "/api/genres", options)
+    const resp = await fetch("/api/genres", options)
     const data = await resp.json()
     addGenre(data)
   }

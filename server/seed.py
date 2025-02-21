@@ -28,6 +28,9 @@ with app.app_context():
   bob = User(username="Bob")
   sam = User(username="Sam")
 
+  bob.password_hash = "testtest"
+  sam.password_hash = "testtest"
+
   db.session.add_all([bob, sam])
   db.session.commit()
 

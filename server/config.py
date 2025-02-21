@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from sqlalchemy import MetaData
 from flask_cors import CORS
+from flask_bcrypt import Bcrypt
 
 naming_convention = {
   "ix": "ix_%(column_0_label)s",
@@ -18,9 +19,12 @@ app = Flask(__name__)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///app.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.secret_key = "bananas"
 
 db = SQLAlchemy(app=app, metadata=metadata)
 
 migrate = Migrate(app=app, db=db)
+
+bcrypt = Bcrypt(app)
 
 CORS(app)
