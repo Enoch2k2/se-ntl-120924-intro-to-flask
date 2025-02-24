@@ -4,7 +4,7 @@ from models.models import UserGame
 
 import ipdb
 
-@app.route("/user_games", methods=["GET", "POST"])
+@app.route("/api/user_games", methods=["GET", "POST"])
 def user_games_route():
   if request.method == "GET":
     user_games = [user_game.to_dict() for user_game in UserGame.query.all()]
@@ -17,9 +17,9 @@ def user_games_route():
     user_game = UserGame(rating=rating, game_id=game_id, user_id=user_id)
     db.session.add(user_game)
     db.session.commit()
-    return jsonify(user_game.to_dict()), 201
+    return jsonify(user_game.to_dict(only=('rating', 'user_id', 'id', 'game_id'))), 201
 
-@app.route("/user_games/<int:id>", methods=["GET", "PATCH", "DELETE"])
+@app.route("/api/user_games/<int:id>", methods=["GET", "PATCH", "DELETE"])
 def user_game_route(id):
   user_game = UserGame.query.get(id)
   if request.method == "GET":
@@ -32,7 +32,7 @@ def user_game_route(id):
         setattr(user_game, key, data[key])
     db.session.add(user_game)
     db.session.commit()
-    return jsonify(user_game.to_dict()), 200
+    return jsonify(user_game.to_dict(only=('rating', 'user_id', 'id', 'game_id'))), 200
   elif request.method == "DELETE":
     db.session.delete(user_game)
     db.session.commit()

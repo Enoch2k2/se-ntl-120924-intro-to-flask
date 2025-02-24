@@ -5,6 +5,7 @@ with app.app_context():
   print("Seeding Data...")
 
   print("Deleting...")
+  UserGame.query.delete()
   Game.query.delete()
   Genre.query.delete()
   User.query.delete()

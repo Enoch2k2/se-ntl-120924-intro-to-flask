@@ -8,9 +8,7 @@ class Game(db.Model, SerializerMixin):
     "-genre_id",
     "-genre.games",
     "-user_games.game",
-    "-user_games.game_id",
     "-user_games.user",
-    "-user_games.user_id",
     "-users.user_games",
     "-users.games"
   )

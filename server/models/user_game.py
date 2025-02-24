@@ -5,8 +5,6 @@ class UserGame(db.Model, SerializerMixin):
   __tablename__ = "user_games"
 
   serialize_rules=(
-    "-game_id",
-    "-user_id",
     "-game.user_games",
     "-game.users",
     "-user.user_games",
