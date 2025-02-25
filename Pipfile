@@ -11,6 +11,9 @@ ipdb = "*"
 sqlalchemy-serializer = "*"
 flask-cors = "*"
 flask-bcrypt = "*"
+gunicorn = "*"
+psycopg2-binary = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
