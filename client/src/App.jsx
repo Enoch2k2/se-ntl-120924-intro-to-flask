@@ -152,6 +152,41 @@ function App() {
     editUserGameForUser(userGame)
   }
 
+  const deleteUserGameForGame = userGame => {
+    const game = games.find(game => game.id === userGame.game_id)
+    let updatedUserGames = game.user_games.filter(ug => ug.id !== userGame.id)
+    // update game
+    const updatedGame = {
+      ...game,
+      user_games: updatedUserGames
+    }
+    // update games state with map
+    const updatedGames = games.map(game => {
+      if(game.id === updatedGame.id) {
+        return updatedGame
+      } else {
+        return game
+      }
+    })
+    setGames(updatedGames)
+  }
+
+  const deleteUserGameForUser = userGame => {
+    let updatedUserGames = currentUser.user_games.filter(ug => ug.id !== userGame.id)
+    // update game
+    const updatedUser = {
+      ...currentUser,
+      user_games: updatedUserGames
+    }
+
+    setCurrentUser(updatedUser)
+  }
+
+  const deleteUserGame = userGame => {
+    deleteUserGameForGame(userGame)
+    deleteUserGameForUser(userGame)
+  }
+
   const login_user = user => {
     setCurrentUser(user)
     setLoggedIn(true)
@@ -169,7 +204,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/genres" element={<GenreList genres={genres} />} />
         <Route path="/genres/new" element={<GenreForm addGenre={addGenre} />} />
-        <Route path="/games" element={<GameList games={games} currentUser={currentUser} addUserGame={addUserGame} editUserGame={editUserGame} />} />
+        <Route path="/games" element={<GameList games={games} currentUser={currentUser} addUserGame={addUserGame} editUserGame={editUserGame} deleteUserGame={deleteUserGame} />} />
         <Route path="/games/new" element={<GameForm genres={ genres } addGame={addGame} />} />
         <Route path="/signup" element={<Signup login_user={login_user} />} />
         <Route path="/login" element={<Login login_user={login_user} />} />
