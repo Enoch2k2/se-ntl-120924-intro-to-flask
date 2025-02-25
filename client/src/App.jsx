@@ -70,6 +70,88 @@ function App() {
     setGenres(updatedGenres)
   }
 
+  const addUserGameToGames = userGame => {
+    const game = games.find(game => game.id === userGame.game_id)
+    let updatedUserGames = [...game.user_games, userGame]
+    // update game
+    const updatedGame = {
+      ...game,
+      user_games: updatedUserGames
+    }
+    // update games state with map
+    const updatedGames = games.map(game => {
+      if(game.id === updatedGame.id) {
+        return updatedGame
+      } else {
+        return game
+      }
+    })
+    setGames(updatedGames)
+  }
+
+  const addUserGameToUser = userGame => {
+    updatedUserGames = [...currentUser.user_games, userGame]
+    
+    const updatedUser = {
+      ...currentUser,
+      user_games: updatedUserGames
+    }
+    
+    setCurrentUser(updatedUser)
+  }
+
+  const addUserGame = userGame => {
+    addUserGameToGames(userGame)
+    addUserGameToUser(userGame)
+  }
+
+  const editUserGameForGame = updatedUserGame => {
+    const game = games.find(game => game.id === updatedUserGame.game_id)
+    let updatedUserGames = game.user_games.map(userGame => {
+      if(userGame.id === updatedUserGame.id) {
+        return updatedUserGame
+      } else {
+        return userGame
+      }
+    })
+    // update game
+    const updatedGame = {
+      ...game,
+      user_games: updatedUserGames
+    }
+    // update games state with map
+    const updatedGames = games.map(game => {
+      if(game.id === updatedGame.id) {
+        return updatedGame
+      } else {
+        return game
+      }
+    })
+    setGames(updatedGames)
+  }
+
+  const editUserGameForUser = updatedUserGame => {
+    let updatedUserGames = currentUser.user_games.map(userGame => {
+      if(userGame.id === updatedUserGame.id) {
+        return updatedUserGame
+      } else {
+        return userGame
+      }
+    })
+    // update game
+    const updatedUser = {
+      ...currentUser,
+      user_games: updatedUserGames
+    }
+
+    setCurrentUser(updatedUser)
+  }
+
+  const editUserGame = userGame => {
+    editUserGameForGame(userGame)
+    editUserGameForUser(userGame)
+  }
+
   const login_user = user => {
     setCurrentUser(user)
     setLoggedIn(true)
@@ -87,7 +169,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/genres" element={<GenreList genres={genres} />} />
         <Route path="/genres/new" element={<GenreForm addGenre={addGenre} />} />
-        <Route path="/games" element={<GameList games={games} />} />
+        <Route path="/games" element={<GameList games={games} currentUser={currentUser} addUserGame={addUserGame} editUserGame={editUserGame} />} />
         <Route path="/games/new" element={<GameForm genres={ genres } addGame={addGame} />} />
         <Route path="/signup" element={<Signup login_user={login_user} />} />
         <Route path="/login" element={<Login login_user={login_user} />} />
