@@ -15,7 +15,7 @@ const Navbar = ({ loggedIn, currentUser, logout_user }) => {
     <li><Link to="/genres/new">Genre Form</Link></li>
     <li><Link to="/games">Game List</Link></li>
     <li><Link to="/games/new">Game Form</Link></li>
-    <li>{ currentUser.username }</li>
+    <li><Link to={`/users/${currentUser.id}`}>{ currentUser.username }</Link></li>
     <li><Link to="#" onClick={handleLogout}>Logout</Link></li>
   </> : <>
     <li><Link to="/signup">Signup</Link></li>

@@ -2,8 +2,16 @@ import * as yup from 'yup'
 import { useFormik } from 'formik'
 import { headers } from '../../Globals'
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-const GameForm = ({ genres, addGame }) => {
+const GameForm = ({ genres, addGame, loggedIn }) => {
+  const navigate = useNavigate()
+  
+  useEffect(() => {
+    if(!loggedIn) {
+      navigate("/login")
+    }
+  }, [loggedIn])
   
   const initialValues = {
     title: "",
@@ -45,7 +53,7 @@ const GameForm = ({ genres, addGame }) => {
 
   return (
     <div>
-      <h1>Create Genre</h1>
+      <h1>Create Game</h1>
       <hr />
       <form onSubmit={formik.handleSubmit}>
         <div>
