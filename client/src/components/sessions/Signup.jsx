@@ -1,9 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
 import { headers } from '../../Globals'
+import { useNavigate } from 'react-router-dom'
 
-const Signup = ({login_user}) => {
+const Signup = ({login_user, loggedIn}) => {
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if(loggedIn) {
+      navigate("/games")
+    }
+  }, [loggedIn])
 
   const initialValues = {
     "username": "",

@@ -4,7 +4,7 @@ from models.models import Genre
 
 import ipdb
 
-@app.route("/api/genres", methods=["GET", "POST"])
+@app.route("/api/genres", methods=["GET", "POST"], endpoint="genres")
 def genres_route():
   if request.method == "GET":
     genres = [genre.to_dict() for genre in Genre.query.all()]
@@ -20,7 +20,7 @@ def genres_route():
     except ValueError as error:
       return jsonify({"error": str(error)}), 422
 
-@app.route("/api/genres/<int:id>",methods=["GET", "PATCH", "DELETE"])
+@app.route("/api/genres/<int:id>",methods=["GET", "PATCH", "DELETE"], endpoint="genre")
 def genre_route(id):
   genre = Genre.query.get(id)
   if request.method == "GET":

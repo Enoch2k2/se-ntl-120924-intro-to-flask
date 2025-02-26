@@ -9,40 +9,62 @@ import GameList from './components/games/GameList'
 import GameForm from './components/games/GameForm'
 import Signup from './components/sessions/Signup'
 import Login from './components/sessions/Login'
+import UserDetails from './components/users/UserDetails'
 
 function App() {
   const [ genres, setGenres ] = useState([])
   const [ games, setGames ] = useState([])
+  const [ users, setUsers] = useState([])
   const [ currentUser, setCurrentUser ] = useState(null)
   const [ loggedIn, setLoggedIn ] = useState(false)
+  const [ loading, setLoading ] = useState(true)
 
   useEffect(() => {
-    async function loadGenres() {
-      const resp = await fetch("/api/genres")
-      const data = await resp.json()
-      setGenres(data)
+    async function load() {
+
+      async function loadGenres() {
+        const resp = await fetch("/api/genres")
+        if(resp.status === 200) {
+          const data = await resp.json()
+          setGenres(data)
+        }
+      }
+  
+      async function loadGames() {
+        const resp = await fetch("/api/games")
+        if(resp.status === 200) {
+          const data = await resp.json()
+          setGames(data)
+        }
+      }
+
+      async function loadUsers() {
+        const resp = await fetch("/api/users")
+        if(resp.status === 200) {
+          const data = await resp.json()
+          setUsers(data)
+        }
+      }
+  
+      async function checkCurrentUser() {
+        const resp = await fetch('/api/check_current_user')
+        if(resp.status === 200) {
+          const data = await resp.json()
+          login_user(data)
+        }
+      }
+      
+      await loadGenres()
+      await loadGames()
+      await loadUsers()
+      await checkCurrentUser()
+      if(loading) {
+        setLoading(false)
+      }
     }
 
-    async function loadGames() {
-      const resp = await fetch("/api/games")
-      const data = await resp.json()
-      setGames(data)
-    }
-
-    async function checkCurrentUser() {
-      fetch('/api/check_current_user')
-        .then(resp => {
-          if(resp.status === 200) {
-            resp.json().then(data => login_user(data))
-          }
-        })
-    }
-
-    loadGenres()
-    loadGames()
-    checkCurrentUser()
-
-  }, [])
+    load()
+  }, [loggedIn])
 
   const addGenre = genre => {
     setGenres([...genres, genre])
@@ -197,6 +219,10 @@ function App() {
     setLoggedIn(false)
   }
 
+  if (loading) {
+    return <h1>Loading....</h1>
+  }
+
   return (
     <Router>
       <Navbar loggedIn={loggedIn} currentUser={currentUser} logout_user={logout_user} />
@@ -204,10 +230,11 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/genres" element={<GenreList genres={genres} />} />
         <Route path="/genres/new" element={<GenreForm addGenre={addGenre} />} />
-        <Route path="/games" element={<GameList games={games} currentUser={currentUser} addUserGame={addUserGame} editUserGame={editUserGame} deleteUserGame={deleteUserGame} />} />
-        <Route path="/games/new" element={<GameForm genres={ genres } addGame={addGame} />} />
-        <Route path="/signup" element={<Signup login_user={login_user} />} />
-        <Route path="/login" element={<Login login_user={login_user} />} />
+        <Route path="/games" element={<GameList games={games} currentUser={currentUser} addUserGame={addUserGame} editUserGame={editUserGame} deleteUserGame={deleteUserGame} loggedIn={loggedIn} />} />
+        <Route path="/games/new" element={<GameForm genres={ genres } addGame={addGame} loggedIn={loggedIn} />} />
+        <Route path="/signup" element={<Signup login_user={login_user} loggedIn={loggedIn} />} />
+        <Route path="/login" element={<Login login_user={login_user} loggedIn={loggedIn} />} />
+        <Route path="/users/:id" element={<UserDetails currentUser={currentUser} loggedIn={loggedIn} users={users} />} />
       </Routes>
     </Router>
   )
