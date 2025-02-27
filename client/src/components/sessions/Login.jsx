@@ -3,6 +3,7 @@ import * as yup from 'yup'
 import { useFormik } from 'formik'
 import { headers } from '../../Globals'
 import { useNavigate } from 'react-router-dom'
+import { TextField, Button, Container, Typography, Box } from '@mui/material'
 
 const Login = ({login_user, loggedIn}) => {
   const navigate = useNavigate()
@@ -47,23 +48,43 @@ const Login = ({login_user, loggedIn}) => {
   })
 
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={formik.handleSubmit}>
-        <div>
-          <label htmlFor="username">Username: </label>
-          <input type="text" name="username" id="username" value={formik.values.username} onChange={formik.handleChange} />
-          <p style={{color: "red"}}>{ formik.errors.username }</p>
-        </div><br />
-        <div>
-          <label htmlFor="password">Password: </label>
-          <input type="password" name="password" id="password" value={formik.values.password} onChange={formik.handleChange} />
-          <p style={{color: "red"}}>{ formik.errors.password }</p>
-        </div><br />
-
-        <input type="submit" value="login" />
-      </form>
-    </div>
+    <Container maxWidth="sm">
+      <Box mt={5}>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Login
+        </Typography>
+        <form onSubmit={formik.handleSubmit}>
+          <Box mb={3}>
+            <TextField
+              fullWidth
+              id="username"
+              name="username"
+              label="Username"
+              value={formik.values.username}
+              onChange={formik.handleChange}
+              error={formik.touched.username && Boolean(formik.errors.username)}
+              helperText={formik.touched.username && formik.errors.username}
+            />
+          </Box>
+          <Box mb={3}>
+            <TextField
+              fullWidth
+              id="password"
+              name="password"
+              label="Password"
+              type="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
+            />
+          </Box>
+          <Button color="primary" variant="contained" fullWidth type="submit">
+            Login
+          </Button>
+        </form>
+      </Box>
+    </Container>
   )
 }
 

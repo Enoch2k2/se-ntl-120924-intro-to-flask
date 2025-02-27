@@ -1,6 +1,8 @@
+import React from 'react'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
 import { headers } from '../../Globals'
+import { TextField, Button, Container, Typography, Box } from '@mui/material'
 
 const GenreForm = ({ addGenre }) => {
   
@@ -13,8 +15,6 @@ const GenreForm = ({ addGenre }) => {
   })
   
   const handleSubmit = async values => {
-    // fetch to the backend
-    // update state
     const options = {
       method: "POST",
       headers: headers,
@@ -32,22 +32,31 @@ const GenreForm = ({ addGenre }) => {
     onSubmit: handleSubmit
   })
 
-  console.log('formik errors', formik.errors)
-
   return (
-    <div>
-      <h1>Create Genre</h1>
-      <hr />
-      <form onSubmit={formik.handleSubmit}>
-        <div>
-          <label htmlFor="name">Name: </label>
-          <input type="text" name="name" id="name" value={formik.values.name} onChange={formik.handleChange} />
-          <p style={{color: "red"}}>{formik.errors.name}</p>
-        </div>
-        <br />
-        <input type="submit" value="Create Genre" />
-      </form>
-    </div>
+    <Container maxWidth="sm">
+      <Box mt={5}>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Create Genre
+        </Typography>
+        <form onSubmit={formik.handleSubmit}>
+          <Box mb={3}>
+            <TextField
+              fullWidth
+              id="name"
+              name="name"
+              label="Name"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              error={formik.touched.name && Boolean(formik.errors.name)}
+              helperText={formik.touched.name && formik.errors.name}
+            />
+          </Box>
+          <Button color="primary" variant="contained" fullWidth type="submit">
+            Create Genre
+          </Button>
+        </form>
+      </Box>
+    </Container>
   )
 }
 

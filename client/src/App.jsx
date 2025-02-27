@@ -10,6 +10,9 @@ import GameForm from './components/games/GameForm'
 import Signup from './components/sessions/Signup'
 import Login from './components/sessions/Login'
 import UserDetails from './components/users/UserDetails'
+import { Container } from '@mui/material'
+
+import './App.css'
 
 function App() {
   const [ genres, setGenres ] = useState([])
@@ -226,16 +229,18 @@ function App() {
   return (
     <Router>
       <Navbar loggedIn={loggedIn} currentUser={currentUser} logout_user={logout_user} />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/genres" element={<GenreList genres={genres} />} />
-        <Route path="/genres/new" element={<GenreForm addGenre={addGenre} />} />
-        <Route path="/games" element={<GameList games={games} currentUser={currentUser} addUserGame={addUserGame} editUserGame={editUserGame} deleteUserGame={deleteUserGame} loggedIn={loggedIn} />} />
-        <Route path="/games/new" element={<GameForm genres={ genres } addGame={addGame} loggedIn={loggedIn} />} />
-        <Route path="/signup" element={<Signup login_user={login_user} loggedIn={loggedIn} />} />
-        <Route path="/login" element={<Login login_user={login_user} loggedIn={loggedIn} />} />
-        <Route path="/users/:id" element={<UserDetails currentUser={currentUser} loggedIn={loggedIn} users={users} />} />
-      </Routes>
+      <Container>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/genres" element={<GenreList genres={genres} />} />
+          <Route path="/genres/new" element={<GenreForm addGenre={addGenre} />} />
+          <Route path="/games" element={<GameList games={games} currentUser={currentUser} addUserGame={addUserGame} editUserGame={editUserGame} deleteUserGame={deleteUserGame} loggedIn={loggedIn} />} />
+          <Route path="/games/new" element={<GameForm genres={ genres } addGame={addGame} loggedIn={loggedIn} />} />
+          <Route path="/signup" element={<Signup login_user={login_user} loggedIn={loggedIn} />} />
+          <Route path="/login" element={<Login login_user={login_user} loggedIn={loggedIn} />} />
+          <Route path="/users/:id" element={<UserDetails currentUser={currentUser} loggedIn={loggedIn} users={users} />} />
+        </Routes>
+      </Container>
     </Router>
   )
 }

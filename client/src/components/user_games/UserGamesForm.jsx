@@ -2,6 +2,7 @@ import React from 'react'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
 import { headers } from '../../Globals'
+import { FormControl, InputLabel, Select, MenuItem, Button, Grid, Typography } from '@mui/material'
 
 const UserGamesForm = ({currentUserId, gameId, addUserGame}) => {
   const initialValues = {
@@ -34,15 +35,33 @@ const UserGamesForm = ({currentUserId, gameId, addUserGame}) => {
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <label htmlFor="rating">Rating: </label>
-      <select name="rating" id="rating" value={formik.values.rating} onChange={formik.handleChange}>
-        <option value={1}>1</option>
-        <option value={2}>2</option>
-        <option value={3}>3</option>
-        <option value={4}>4</option>
-        <option value={5}>5</option>
-      </select>
-      <input type="submit" value="Submit" />
+      <Grid container spacing={2} alignItems="center">
+        <Grid item>
+          <Typography variant="body1">Rating</Typography>
+        </Grid>
+        <Grid item>
+          <FormControl fullWidth margin="normal" size="small">
+            <Select
+              labelId="rating-label"
+              id="rating"
+              name="rating"
+              value={formik.values.rating}
+              onChange={formik.handleChange}
+            >
+              <MenuItem value={1}>1</MenuItem>
+              <MenuItem value={2}>2</MenuItem>
+              <MenuItem value={3}>3</MenuItem>
+              <MenuItem value={4}>4</MenuItem>
+              <MenuItem value={5}>5</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs>
+          <Button color="primary" variant="contained" fullWidth type="submit" size="medium" style={{ marginTop: '8px' }}>
+            Submit
+          </Button>
+        </Grid>
+      </Grid>
     </form>
   )
 }

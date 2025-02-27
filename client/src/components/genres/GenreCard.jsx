@@ -1,16 +1,27 @@
 import React from 'react'
+import { Card, CardContent, Typography, List, ListItem } from '@mui/material'
 
 const GenreCard = ({ genre }) => {
-  const games = genre.games.map(game => <li key={game.id}>{ game.title }</li>)
+  const games = genre.games.map(game => (
+    <ListItem key={game.id}>
+      {game.title}
+    </ListItem>
+  ))
 
   return (
-    <div>
-      <h3>{ genre.name }</h3>
-      <h4>Games</h4>
-      <ul>
-        { games }
-      </ul>
-    </div>
+    <Card>
+      <CardContent>
+        <Typography variant="h5" component="h3" gutterBottom>
+          {genre.name}
+        </Typography>
+        <Typography variant="h6" component="h4">
+          Games
+        </Typography>
+        <List>
+          {games}
+        </List>
+      </CardContent>
+    </Card>
   )
 }
 
