@@ -6,6 +6,10 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import App from './App.jsx';
+import { GenresProvider } from './context/GenresContext.jsx';
+import { GamesProvider } from './context/GamesContext.jsx';
+import { UsersProvider } from './context/UsersContext.jsx';
+import { UserGamesProvider } from './context/UserGamesContext.jsx';
 
 const theme = createTheme({
   palette: {
@@ -21,7 +25,15 @@ const theme = createTheme({
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProvider theme={theme}>
-      <App />
+      <UsersProvider>
+        <GenresProvider>
+          <GamesProvider>
+            <UserGamesProvider>
+              <App />
+            </UserGamesProvider>
+          </GamesProvider>
+        </GenresProvider>
+      </UsersProvider>
     </ThemeProvider>
   </StrictMode>,
 );

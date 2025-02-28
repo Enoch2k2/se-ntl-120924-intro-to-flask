@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
 import { headers } from '../../Globals'
 import { TextField, Button, Container, Typography, Box } from '@mui/material'
+import { GenresContext } from '../../context/GenresContext'
 
-const GenreForm = ({ addGenre }) => {
+const GenreForm = () => {
+
+  const { addGenre } = useContext(GenresContext)
   
   const initialValues = {
     name: ""

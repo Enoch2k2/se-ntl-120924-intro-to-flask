@@ -1,10 +1,15 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import GameCard from './GameCard'
 import { useNavigate } from 'react-router-dom'
 import { Container, Typography, Box, Divider, Grid } from '@mui/material'
+import { GamesContext } from '../../context/GamesContext'
+import { UsersContext } from '../../context/UsersContext'
 
-const GameList = ({ games, currentUser, addUserGame, editUserGame, deleteUserGame, loggedIn }) => {
+const GameList = () => {
   const navigate = useNavigate()
+
+  const { games } = useContext(GamesContext)
+  const { loggedIn } = useContext(UsersContext)
 
   useEffect(() => {
     if (!loggedIn) {
@@ -14,7 +19,7 @@ const GameList = ({ games, currentUser, addUserGame, editUserGame, deleteUserGam
 
   const gameCards = games.map(game => (
     <Grid item xs={12} sm={6} md={4} key={game.id}>
-      <GameCard game={game} currentUser={currentUser} addUserGame={addUserGame} editUserGame={editUserGame} deleteUserGame={deleteUserGame} />
+      <GameCard game={game} />
     </Grid>
   ))
 

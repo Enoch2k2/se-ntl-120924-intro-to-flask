@@ -1,12 +1,19 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
 import { headers } from '../../Globals'
 import { useNavigate } from 'react-router-dom'
 import { TextField, Select, MenuItem, Button, Container, Typography, Box, FormControl } from '@mui/material'
+import { GenresContext } from '../../context/GenresContext'
+import { GamesContext } from '../../context/GamesContext'
+import { UsersContext } from '../../context/UsersContext'
 
-const GameForm = ({ genres, addGame, loggedIn }) => {
+const GameForm = () => {
   const navigate = useNavigate()
+
+  const { genres } = useContext(GenresContext)
+  const { addGame } = useContext(GamesContext)
+  const { loggedIn } = useContext(UsersContext)
   
   useEffect(() => {
     if(!loggedIn) {

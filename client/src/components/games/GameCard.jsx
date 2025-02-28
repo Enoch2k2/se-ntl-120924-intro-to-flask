@@ -1,12 +1,17 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Card, CardContent, Typography, Box, Button } from '@mui/material'
 import UserGamesForm from '../user_games/UserGamesForm'
 import UserGamesEditForm from '../user_games/UserGamesEditForm'
+import { UsersContext } from '../../context/UsersContext'
+import { UserGamesContext } from '../../context/UserGamesContext'
 
-const GameCard = ({ game, currentUser, addUserGame, editUserGame, deleteUserGame }) => {
+const GameCard = ({ game }) => {
   let user_game, rating
 
   const [editing, setEditing] = useState(false)
+
+  const { currentUser } = useContext(UsersContext)
+  const { deleteUserGame } = useContext(UserGamesContext)
 
   if (currentUser) {
     user_game = game.user_games.find(ug => ug.user_id === currentUser.id)
@@ -32,7 +37,7 @@ const GameCard = ({ game, currentUser, addUserGame, editUserGame, deleteUserGame
     rating = user_game ? (
       editing ? (
         <>
-          <UserGamesEditForm user_game={user_game} editUserGame={editUserGame} toggleEditForm={toggleEditForm} />
+          <UserGamesEditForm user_game={user_game} toggleEditForm={toggleEditForm} />
           <Button onClick={toggleEditForm}>Cancel</Button>
         </>
       ) : (
@@ -45,7 +50,7 @@ const GameCard = ({ game, currentUser, addUserGame, editUserGame, deleteUserGame
         </>
       )
     ) : (
-      <UserGamesForm currentUserId={currentUser.id} gameId={game.id} addUserGame={addUserGame} />
+      <UserGamesForm currentUserId={currentUser.id} gameId={game.id} />
     )
   }
 

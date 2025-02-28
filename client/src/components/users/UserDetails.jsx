@@ -1,7 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { UsersContext } from '../../context/UsersContext'
 
-const UserDetails = ({loggedIn, currentUser, users}) => {
+const UserDetails = () => {
+
+  const {loggedIn, currentUser, users} = useContext(UsersContext)
 
   const id = parseInt(useParams().id)
   const navigate = useNavigate()

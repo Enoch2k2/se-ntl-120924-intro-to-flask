@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
 import { headers } from '../../Globals'
-import { FormControl, InputLabel, Select, MenuItem, Button, Grid, Typography } from '@mui/material'
+import { FormControl, Select, MenuItem, Button, Grid, Typography } from '@mui/material'
+import { UserGamesContext } from '../../context/UserGamesContext'
 
-const UserGamesForm = ({currentUserId, gameId, addUserGame}) => {
+const UserGamesForm = ({currentUserId, gameId}) => {
+  const { addUserGame } = useContext(UserGamesContext)
+
   const initialValues = {
     rating: 3,
     user_id: currentUserId,

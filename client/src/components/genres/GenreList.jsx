@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import GenreCard from './GenreCard'
 import { Container, Typography, Box, Divider, Grid } from '@mui/material'
+import { GenresContext } from '../../context/GenresContext'
 
-const GenreList = ({ genres }) => {
+const GenreList = () => {
+
+  const { genres } = useContext(GenresContext)
 
   const genreCards = genres.map(genre => (
     <Grid item xs={12} sm={6} md={4} key={genre.id}>
